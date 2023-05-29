@@ -12,11 +12,11 @@ const { connect } = require("./database/db");
 
 // Import routes
 const userRoutes = require("./routes/userRoutes");
-const filterRoutes = require("./routes/filterRoutes");
+const wallpaperRoutes = require("./routes/wallpaperRoutes");
 
 // Routes
 app.use(userRoutes);
-app.use(filterRoutes);
+app.use(wallpaperRoutes);
 
 // Start server
 async function start() {

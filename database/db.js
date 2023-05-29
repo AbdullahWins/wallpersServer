@@ -14,10 +14,10 @@ const connect = async () => {
 
 const db = client.db(process.env.DATABASE_NAME);
 const usersCollection = db.collection("users");
-const filtersCollection = db.collection("filters");
+const wallpapersCollection = db.collection("wallpapers");
 
 module.exports = {
   connect,
   usersCollection,
-  filtersCollection,
+  wallpapersCollection,
 };
