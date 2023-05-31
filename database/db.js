@@ -13,11 +13,13 @@ const connect = async () => {
 };
 
 const db = client.db(process.env.DATABASE_NAME);
-const usersCollection = db.collection("users");
-const filtersCollection = db.collection("filters");
+const usersCollection = db.collection("usersCollection");
+const wallpapersCollection = db.collection("wallpapersCollection");
+const ringtonesCollection = db.collection("ringtonesCollection");
 
 module.exports = {
   connect,
   usersCollection,
-  filtersCollection,
+  wallpapersCollection,
+  ringtonesCollection,
 };

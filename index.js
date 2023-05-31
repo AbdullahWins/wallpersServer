@@ -1,4 +1,7 @@
 const express = require("express");
+const admin = require("firebase-admin");
+const multer = require("multer");
+const dotenv = require("dotenv");
 const cors = require("cors");
 const app = express();
 const port = process.env.PORT || 5000;
@@ -6,17 +9,30 @@ const port = process.env.PORT || 5000;
 // Middleware
 app.use(cors());
 app.use(express.json());
+app.use(multer({ dest: "uploads/" }).single("file"));
+dotenv.config();
+
+//initialize firebase
+admin.initializeApp({
+  credential: admin.credential.cert({
+    projectId: process.env.FIREBASE_PROJECT_ID,
+    privateKey: process.env.FIREBASE_PRIVATE_KEY.replace(/\\n/g, "\n"),
+    clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
+  }),
+});
 
 // Import database connection
 const { connect } = require("./database/db");
 
 // Import routes
 const userRoutes = require("./routes/userRoutes");
-const filterRoutes = require("./routes/filterRoutes");
+const wallpaperRoutes = require("./routes/wallpaperRoutes");
+const ringtoneRoutes = require("./routes/ringtoneRoutes");
 
 // Routes
 app.use(userRoutes);
-app.use(filterRoutes);
+app.use(wallpaperRoutes);
+app.use(ringtoneRoutes);
 
 // Start server
 async function start() {
