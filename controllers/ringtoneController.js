@@ -2,6 +2,7 @@
 
 const { ObjectId } = require("mongodb");
 const { ringtonesCollection } = require("../database/db");
+const { uploadFile } = require("../uploaders/uploadFile");
 
 //get all Ringtones
 const getAllRingtones = async (req, res) => {
@@ -72,17 +73,16 @@ const getOneRingtone = async (req, res) => {
   }
 };
 
-//add new Ringtone
+//
+
 const addOneRingtone = async (req, res) => {
-  console.log(req);
   try {
-    const ringtone = req.body;
-    const result = await ringtonesCollection.insertOne(tingtone);
-    res.send(result);
-    console.log(result);
+    const { file } = req;
+    const fileUrl = await uploadFile(file);
+    res.send(`File uploaded successfully. Direct URL: ${fileUrl}`);
   } catch (err) {
     console.error(err);
-    res.status(500).send("Server Error");
+    res.status(500).send("Failed to upload file");
   }
 };
 
