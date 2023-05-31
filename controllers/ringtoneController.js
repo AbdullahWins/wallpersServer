@@ -79,7 +79,8 @@ const addOneRingtone = async (req, res) => {
   try {
     const { file } = req;
     const fileUrl = await uploadFile(file);
-    res.send(`File uploaded successfully. Direct URL: ${fileUrl}`);
+    res.send({ directUrl: fileUrl });
+    console.log(`File URL: ${fileUrl}`);
   } catch (err) {
     console.error(err);
     res.status(500).send("Failed to upload file");
