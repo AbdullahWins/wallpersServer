@@ -73,14 +73,14 @@ const getOneRingtone = async (req, res) => {
   }
 };
 
-//
+//add one ringtone
 
 const addOneRingtone = async (req, res) => {
   try {
     const { file } = req;
     const { data } = req.body; // Access the data from req.body
-
-    const fileUrl = await uploadFile(file);
+    const folderName = "ringtones";
+    const fileUrl = await uploadFile(file, folderName);
     res.send({ fileUrl });
     console.log(`File URL: ${fileUrl}`);
     console.log(`Data: ${data}`);

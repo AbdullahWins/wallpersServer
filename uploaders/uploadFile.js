@@ -1,5 +1,6 @@
 const { Storage } = require("@google-cloud/storage");
 const dotenv = require("dotenv");
+const { generateUniqueFilename } = require("./generateUniqueFilename");
 
 dotenv.config();
 
@@ -12,13 +13,14 @@ const storage = new Storage({
   },
 });
 
-function uploadFile(file) {
+function uploadFile(file, folderName) {
   return new Promise((resolve, reject) => {
-    const bucketName = "wallperspro.appspot.com";
+    const bucketName = process.env.FIRE_STORAGE_BUCKET_NAME;
     const bucket = storage.bucket(bucketName);
-
+    // Generate a unique filename
+    const uniqueFilename = generateUniqueFilename(file.originalname);
     const options = {
-      destination: `upload/${file.originalname}`,
+      destination: `${folderName}/${uniqueFilename}`,
       public: true,
     };
 
