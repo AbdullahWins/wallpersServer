@@ -78,12 +78,17 @@ const getOneRingtone = async (req, res) => {
 const addOneRingtone = async (req, res) => {
   try {
     const { file } = req;
-    const { data } = req.body; // Access the data from req.body
+    const data = JSON.parse(req.body.data);
     const folderName = "ringtones";
     const fileUrl = await uploadFile(file, folderName);
-    res.send({ fileUrl });
+    const formattedData = {
+      ...data,
+      fileUrl,
+    };
+    const result = await ringtonesCollection.insertOne(formattedData);
+    res.send(result);
+    console.log(formattedData);
     console.log(`File URL: ${fileUrl}`);
-    console.log(`Data: ${data}`);
   } catch (err) {
     console.error(err);
     res.status(500).send("Failed to upload file");
