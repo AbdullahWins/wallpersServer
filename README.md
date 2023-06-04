@@ -1,2 +1,7 @@
-# MVC_Backend_BoilarPlate
-This repo exists because I don't want to install express, mongodb, cors, env etc and set up the mvc layout every time I start developing a backend.
+#Wallpers Backend Server
+
+This server is created using #NodeJs.
+
+Used #ExpressJs framework for the web server, #mongodb as the #database and #fireStorage as #storage solution.
+
+Also used: multer, cors, uuid etc.
