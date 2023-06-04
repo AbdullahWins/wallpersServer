@@ -6,7 +6,7 @@ const {
   getAllwallpaperCategories,
   addOneRingtoneCategory,
   addOneWallpaperCategory,
-} = require("../controllers/categoriesController");
+} = require("../controllers/categoryController");
 
 router.get("/categories/ringtone", getAllRingtoneCategories);
 router.get("/categories/wallpaper", getAllwallpaperCategories);

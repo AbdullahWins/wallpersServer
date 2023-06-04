@@ -1,4 +1,4 @@
-const { MongoClient, ObjectId, ServerApiVersion } = require("mongodb");
+const { MongoClient } = require("mongodb");
 require("dotenv").config();
 
 const uri = process.env.MONGODB_URI;
@@ -31,5 +31,5 @@ module.exports = {
   wallpapersCollection,
   ringtonesCollection,
   wallpaperCategoriesCollection,
-  wallpaperCategoriesCollection,
+  ringtoneCategoriesCollection,
 };
