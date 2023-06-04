@@ -74,7 +74,6 @@ const getOneRingtone = async (req, res) => {
 };
 
 //add one ringtone
-
 const addOneRingtone = async (req, res) => {
   try {
     const { file } = req;
