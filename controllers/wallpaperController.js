@@ -2,6 +2,7 @@
 
 const { ObjectId } = require("mongodb");
 const { wallpapersCollection } = require("../database/db");
+const { uploadFile } = require("../uploaders/uploadFile");
 
 //get all wallpapers
 const getAllWallpapers = async (req, res) => {
@@ -74,15 +75,22 @@ const getOneWallpaper = async (req, res) => {
 
 //add new wallpaper
 const addOneWallpaper = async (req, res) => {
-  console.log(req);
   try {
-    const wallpaper = req.body;
-    const result = await wallpapersCollection.insertOne(wallpaper);
+    const { file } = req;
+    const data = JSON.parse(req.body.data);
+    const folderName = "wallpapers";
+    const fileUrl = await uploadFile(file, folderName);
+    const formattedData = {
+      ...data,
+      fileUrl,
+    };
+    const result = await wallpapersCollection.insertOne(formattedData);
     res.send(result);
-    console.log(result);
+    console.log(formattedData);
+    console.log(`wallpaper URL: ${fileUrl}`);
   } catch (err) {
     console.error(err);
-    res.status(500).send("Server Error");
+    res.status(500).send("Failed to upload wallpaper");
   }
 };
 

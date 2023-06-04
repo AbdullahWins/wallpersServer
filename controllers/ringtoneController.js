@@ -35,6 +35,23 @@ const getRingtonesByType = async (req, res) => {
     res.status(500).send("Server Error");
   }
 };
+// Get Ringtones by creator choice
+const getRingtonesByCreatorChoice = async (req, res) => {
+  try {
+    const ringtoneTypeName = req.params.typeName;
+    const ringtones = await ringtonesCollection
+      .find({ isCreatorChoice: true })
+      .toArray();
+    if (ringtones.length === 0) {
+      res.status(404).send("No Ringtones found for the specified type");
+    } else {
+      res.send(ringtones);
+    }
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("Server Error");
+  }
+};
 
 // Get Ringtones by category
 const getRingtonesByCategory = async (req, res) => {
@@ -73,17 +90,21 @@ const getOneRingtone = async (req, res) => {
   }
 };
 
-//
-
+//add one ringtone
 const addOneRingtone = async (req, res) => {
   try {
     const { file } = req;
-    const { data } = req.body; // Access the data from req.body
-
-    const fileUrl = await uploadFile(file);
-    res.send({ fileUrl });
+    const data = JSON.parse(req.body.data);
+    const folderName = "ringtones";
+    const fileUrl = await uploadFile(file, folderName);
+    const formattedData = {
+      ...data,
+      fileUrl,
+    };
+    const result = await ringtonesCollection.insertOne(formattedData);
+    res.send(result);
+    console.log(formattedData);
     console.log(`File URL: ${fileUrl}`);
-    console.log(`Data: ${data}`);
   } catch (err) {
     console.error(err);
     res.status(500).send("Failed to upload file");
@@ -93,6 +114,7 @@ const addOneRingtone = async (req, res) => {
 module.exports = {
   getOneRingtone,
   getRingtonesByCategory,
+  getRingtonesByCreatorChoice,
   getRingtonesByType,
   getAllRingtones,
   addOneRingtone,

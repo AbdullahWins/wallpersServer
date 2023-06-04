@@ -28,11 +28,15 @@ const { connect } = require("./database/db");
 const userRoutes = require("./routes/userRoutes");
 const wallpaperRoutes = require("./routes/wallpaperRoutes");
 const ringtoneRoutes = require("./routes/ringtoneRoutes");
+const categoryRoutes = require("./routes/categoryRoutes");
+const bannerRoutes = require("./routes/bannerRoutes");
 
 // Routes
 app.use(userRoutes);
 app.use(wallpaperRoutes);
 app.use(ringtoneRoutes);
+app.use(categoryRoutes);
+app.use(bannerRoutes);
 
 // Start server
 async function start() {
