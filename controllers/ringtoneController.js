@@ -1,4 +1,4 @@
-// controllers/RingtoneController.js
+// controllers/ringtoneController.js
 
 const { ObjectId } = require("mongodb");
 const { ringtonesCollection } = require("../database/db");

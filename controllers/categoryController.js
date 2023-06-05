@@ -1,4 +1,4 @@
-// controllers/RingtoneController.js
+// Controllers/categoryController.js
 
 const {
   wallpaperCategoriesCollection,

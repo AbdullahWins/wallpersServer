@@ -1,4 +1,4 @@
-// user controller
+// controllers/userController.js
 
 const { ObjectId } = require("mongodb");
 const { usersCollection } = require("../database/db");

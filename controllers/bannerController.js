@@ -1,4 +1,4 @@
-// controllers/RingtoneController.js
+// controllers/bannerController.js
 
 const { bannersCollection } = require("../database/db");
 const { uploadFile } = require("../uploaders/uploadFile");

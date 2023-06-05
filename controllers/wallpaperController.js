@@ -1,4 +1,4 @@
-// controllers/wallpaperController.js
+// Controllers/wallpaperController.js
 
 const { ObjectId } = require("mongodb");
 const { wallpapersCollection } = require("../database/db");
