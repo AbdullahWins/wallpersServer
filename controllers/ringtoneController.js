@@ -35,6 +35,7 @@ const getRingtonesByType = async (req, res) => {
     res.status(500).send("Server Error");
   }
 };
+
 // Get Ringtones by creator choice
 const getRingtonesByCreatorChoice = async (req, res) => {
   try {
@@ -111,6 +112,42 @@ const addOneRingtone = async (req, res) => {
   }
 };
 
+//update a ringtone
+const updateRingtoneById = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { file } = req;
+    const data = JSON.parse(req.body.data);
+    const folderName = "ringtones";
+
+    let updateData = {};
+
+    if (file) {
+      const fileUrl = await uploadFile(file, folderName);
+      updateData = { ...updateData, fileUrl };
+    }
+
+    if (data) {
+      updateData = { ...updateData, ...data };
+    }
+
+    const result = await ringtonesCollection.updateOne(
+      { _id: ObjectId(id) },
+      { $set: updateData }
+    );
+
+    if (result.modifiedCount > 0) {
+      res.send("Ringtone updated successfully");
+      console.log("Ringtone updated successfully");
+    } else {
+      res.status(404).send("Ringtone not found");
+    }
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("Failed to update ringtone");
+  }
+};
+
 module.exports = {
   getOneRingtone,
   getRingtonesByCategory,
@@ -118,4 +155,5 @@ module.exports = {
   getRingtonesByType,
   getAllRingtones,
   addOneRingtone,
+  updateRingtoneById,
 };
