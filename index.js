@@ -30,6 +30,7 @@ const wallpaperRoutes = require("./routes/wallpaperRoutes");
 const ringtoneRoutes = require("./routes/ringtoneRoutes");
 const categoryRoutes = require("./routes/categoryRoutes");
 const bannerRoutes = require("./routes/bannerRoutes");
+const midRoutes = require("./routes/midRoutes");
 
 // Routes
 app.use(userRoutes);
@@ -37,6 +38,7 @@ app.use(wallpaperRoutes);
 app.use(ringtoneRoutes);
 app.use(categoryRoutes);
 app.use(bannerRoutes);
+app.use(midRoutes);
 
 // Start server
 async function start() {

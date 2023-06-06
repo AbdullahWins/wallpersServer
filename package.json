@@ -14,8 +14,10 @@
     "dotenv": "^16.1.1",
     "express": "^4.18.2",
     "firebase-admin": "^11.9.0",
+    "midjourney-client": "^1.0.8",
     "mongodb": "^5.5.0",
     "multer": "^1.4.5-lts.1",
+    "replicate": "^0.12.1",
     "uuid": "^9.0.0"
   }
 }
