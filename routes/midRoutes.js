@@ -7,6 +7,6 @@ const {
 } = require("../controllers/midController");
 
 router.get("/mid", createImageFromPrompt);
-router.get("/rep", replicateImage);
+router.post("/rep", replicateImage);
 
 module.exports = router;

@@ -18,6 +18,8 @@ const createImageFromPrompt = async (req, res) => {
 };
 
 const replicateImage = async (req, res) => {
+  const prompt = req?.body;
+  console.log(prompt);
   try {
     const replicate = new Replicate({
       auth: process.env.REPLICATE_API_TOKEN,
@@ -27,8 +29,7 @@ const replicateImage = async (req, res) => {
       "stability-ai/stable-diffusion:db21e45d3f7023abc2a46ee38a23973f6dce16bb082a930b0c49861f96d1e5bf",
       {
         input: {
-          prompt:
-            "a realistic looking woman with detailed face in a beautiful tropical island",
+          prompt: `${prompt}`,
         },
       }
     );
