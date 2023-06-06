@@ -5,6 +5,8 @@ const {
   getOneWallpaper,
   getAllWallpapers,
   getWallpapersByCategory,
+  getWallpapersByCreatorChoice,
+  getWallpapersByTrending,
   getWallpapersByType,
   addOneWallpaper,
   updateWallpaperById,
@@ -14,6 +16,8 @@ router.get("/wallpapers/find/:id", getOneWallpaper);
 router.get("/wallpapers", getAllWallpapers);
 router.get("/wallpapers/categories/:categoryName", getWallpapersByCategory);
 router.get("/wallpapers/types/:typeName", getWallpapersByType);
+router.get("/wallpapers/creatorChoice", getWallpapersByCreatorChoice);
+router.get("/wallpapers/trending", getWallpapersByTrending);
 router.post("/wallpapers/add", addOneWallpaper);
 router.patch("/wallpapers/edit/:id", updateWallpaperById);
 

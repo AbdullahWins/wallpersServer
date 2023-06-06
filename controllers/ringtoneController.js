@@ -54,6 +54,24 @@ const getRingtonesByCreatorChoice = async (req, res) => {
   }
 };
 
+// Get Ringtones by trending
+const getRingtonesByTrending = async (req, res) => {
+  try {
+    const ringtoneCategoryName = req.params.categoryName;
+    const ringtones = await ringtonesCollection
+      .find({ isTrending: true })
+      .toArray();
+    if (ringtones.length === 0) {
+      res.status(404).send("No Ringtones found for the specified category");
+    } else {
+      res.send(ringtones);
+    }
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("Server Error");
+  }
+};
+
 // Get Ringtones by category
 const getRingtonesByCategory = async (req, res) => {
   try {
@@ -71,6 +89,7 @@ const getRingtonesByCategory = async (req, res) => {
     res.status(500).send("Server Error");
   }
 };
+
 
 //get single Ringtone
 const getOneRingtone = async (req, res) => {
@@ -146,6 +165,7 @@ module.exports = {
   getOneRingtone,
   getRingtonesByCategory,
   getRingtonesByCreatorChoice,
+  getRingtonesByTrending,
   getRingtonesByType,
   getAllRingtones,
   addOneRingtone,

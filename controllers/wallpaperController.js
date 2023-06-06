@@ -36,6 +36,42 @@ const getWallpapersByType = async (req, res) => {
   }
 };
 
+// Get Wallpapers by creator choice
+const getWallpapersByCreatorChoice = async (req, res) => {
+  try {
+    const wallpaperTypeName = req.params.typeName;
+    const wallpapers = await wallpapersCollection
+      .find({ isCreatorChoice: true })
+      .toArray();
+    if (wallpapers.length === 0) {
+      res.status(404).send("No wallpaper is creator choice");
+    } else {
+      res.send(wallpapers);
+    }
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("Server Error");
+  }
+};
+
+// Get Wallpapers by trending
+const getWallpapersByTrending = async (req, res) => {
+  try {
+    const wallpaperCategoryName = req.params.categoryName;
+    const wallpapers = await wallpapersCollection
+      .find({ isTrending: true })
+      .toArray();
+    if (wallpapers.length === 0) {
+      res.status(404).send("No wallpaper is trending");
+    } else {
+      res.send(ringtones);
+    }
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("Server Error");
+  }
+};
+
 // Get wallpapers by category
 const getWallpapersByCategory = async (req, res) => {
   try {
@@ -127,6 +163,8 @@ const updateWallpaperById = async (req, res) => {
 module.exports = {
   getOneWallpaper,
   getWallpapersByCategory,
+  getWallpapersByCreatorChoice,
+  getWallpapersByTrending,
   getWallpapersByType,
   getAllWallpapers,
   addOneWallpaper,
