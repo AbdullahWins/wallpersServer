@@ -64,7 +64,26 @@ const getWallpapersByTrending = async (req, res) => {
     if (wallpapers.length === 0) {
       res.status(404).send("No wallpaper is trending");
     } else {
-      res.send(ringtones);
+      res.send(wallpapers);
+    }
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("Server Error");
+  }
+};
+
+// Get Wallpapers by color
+const getWallpapersByColor = async (req, res) => {
+  try {
+    const color = req.params.color;
+
+    const wallpapers = await wallpapersCollection
+      .find({ colors: color })
+      .toArray();
+    if (wallpapers.length === 0) {
+      res.status(404).send("No wallpaper has this color");
+    } else {
+      res.send(wallpapers);
     }
   } catch (err) {
     console.error(err);
@@ -165,6 +184,7 @@ module.exports = {
   getWallpapersByCategory,
   getWallpapersByCreatorChoice,
   getWallpapersByTrending,
+  getWallpapersByColor,
   getWallpapersByType,
   getAllWallpapers,
   addOneWallpaper,

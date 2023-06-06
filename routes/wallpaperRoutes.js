@@ -7,6 +7,7 @@ const {
   getWallpapersByCategory,
   getWallpapersByCreatorChoice,
   getWallpapersByTrending,
+  getWallpapersByColor,
   getWallpapersByType,
   addOneWallpaper,
   updateWallpaperById,
@@ -18,6 +19,7 @@ router.get("/wallpapers/categories/:categoryName", getWallpapersByCategory);
 router.get("/wallpapers/types/:typeName", getWallpapersByType);
 router.get("/wallpapers/creatorChoice", getWallpapersByCreatorChoice);
 router.get("/wallpapers/trending", getWallpapersByTrending);
+router.get("/wallpapers/:color", getWallpapersByColor);
 router.post("/wallpapers/add", addOneWallpaper);
 router.patch("/wallpapers/edit/:id", updateWallpaperById);
 
