@@ -18,7 +18,7 @@ const createImageFromPrompt = async (req, res) => {
 };
 
 const replicateImage = async (req, res) => {
-  const prompt = req?.body;
+  const prompt = req?.body?.prompt;
   console.log(prompt);
   try {
     const replicate = new Replicate({
@@ -34,7 +34,9 @@ const replicateImage = async (req, res) => {
       }
     );
     res.send(output);
+    console.log(output);
   } catch (error) {
+    res.error(error);
     console.log(error);
   }
 };
