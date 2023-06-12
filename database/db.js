@@ -18,6 +18,7 @@ const db = client.db(process.env.DATABASE_NAME);
 const bannersCollection = db.collection("bannersCollection");
 const usersCollection = db.collection("usersCollection");
 const payoutsCollection = db.collection("payoutsCollection");
+const withdrawsCollection = db.collection("withdrawsCollection");
 const wallpapersCollection = db.collection("wallpapersCollection");
 const ringtonesCollection = db.collection("ringtonesCollection");
 const wallpaperCategoriesCollection = db.collection(
@@ -32,6 +33,7 @@ module.exports = {
   bannersCollection,
   usersCollection,
   payoutsCollection,
+  withdrawsCollection,
   wallpapersCollection,
   ringtonesCollection,
   wallpaperCategoriesCollection,

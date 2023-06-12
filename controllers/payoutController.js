@@ -2,7 +2,7 @@
 
 const { ObjectId } = require("mongodb");
 const { payoutsCollection } = require("../database/db");
-const { uploadFile } = require("../uploaders/uploadFile");
+// const { uploadFile } = require("../uploaders/uploadFile");
 
 //get all Payouts
 const getAllPayouts = async (req, res) => {
@@ -83,15 +83,15 @@ const updatePayoutById = async (req, res) => {
     const id = req.params.id;
     console.log(id);
     const query = { _id: new ObjectId(id) };
-    const { file } = req;
+    // const { file } = req;
     const data = JSON.parse(req?.body?.data);
-    const folderName = "payouts";
+    // const folderName = "payouts";
     let updateData = {};
 
-    if (file) {
-      const imageUrl = await uploadFile(file, folderName);
-      updateData = { ...updateData, imageUrl };
-    }
+    // if (file) {
+    //   const imageUrl = await uploadFile(file, folderName);
+    //   updateData = { ...updateData, imageUrl };
+    // }
 
     if (data) {
       updateData = { ...updateData, ...data };
