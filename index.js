@@ -31,6 +31,7 @@ const ringtoneRoutes = require("./routes/ringtoneRoutes");
 const categoryRoutes = require("./routes/categoryRoutes");
 const bannerRoutes = require("./routes/bannerRoutes");
 const payoutRoutes = require("./routes/payoutRoutes");
+const coinPriceRoutes = require("./routes/coinPriceRoutes");
 const withdrawRoutes = require("./routes/withdrawRoutes");
 const midRoutes = require("./routes/midRoutes");
 
@@ -41,6 +42,7 @@ app.use(ringtoneRoutes);
 app.use(categoryRoutes);
 app.use(bannerRoutes);
 app.use(payoutRoutes);
+app.use(coinPriceRoutes);
 app.use(withdrawRoutes);
 app.use(midRoutes);
 
