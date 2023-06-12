@@ -17,6 +17,7 @@ const connect = async () => {
 const db = client.db(process.env.DATABASE_NAME);
 const bannersCollection = db.collection("bannersCollection");
 const usersCollection = db.collection("usersCollection");
+const payoutsCollection = db.collection("payoutsCollection");
 const wallpapersCollection = db.collection("wallpapersCollection");
 const ringtonesCollection = db.collection("ringtonesCollection");
 const wallpaperCategoriesCollection = db.collection(
@@ -30,6 +31,7 @@ module.exports = {
   connect,
   bannersCollection,
   usersCollection,
+  payoutsCollection,
   wallpapersCollection,
   ringtonesCollection,
   wallpaperCategoriesCollection,

@@ -30,6 +30,7 @@ const wallpaperRoutes = require("./routes/wallpaperRoutes");
 const ringtoneRoutes = require("./routes/ringtoneRoutes");
 const categoryRoutes = require("./routes/categoryRoutes");
 const bannerRoutes = require("./routes/bannerRoutes");
+const payoutRoutes = require("./routes/payoutRoutes");
 const midRoutes = require("./routes/midRoutes");
 
 // Routes
@@ -38,6 +39,7 @@ app.use(wallpaperRoutes);
 app.use(ringtoneRoutes);
 app.use(categoryRoutes);
 app.use(bannerRoutes);
+app.use(payoutRoutes);
 app.use(midRoutes);
 
 // Start server
