@@ -27,7 +27,7 @@ const getOneAdNetwork = async (req, res) => {
     if (!adNetwork) {
       res.status(404).send("adNetwork not found");
     } else {
-      console.log(adNetwork);
+      console.log("user asked for this one: ", adNetwork);
       res.send(adNetwork);
     }
   } catch (err) {
