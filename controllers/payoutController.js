@@ -21,9 +21,11 @@ const getAllPayouts = async (req, res) => {
 // Get payouts by types
 const getPayoutsByType = async (req, res) => {
   try {
-    const payoutTypeName = req.params.typeName;
+    const payoutTypeName = req.params.typeName.toLowerCase(); // Convert parameter to lowercase
     const payouts = await payoutsCollection
-      .find({ payoutType: payoutTypeName })
+      .find({
+        paymentMethod: { $regex: new RegExp(`^${payoutTypeName}$`, "i") },
+      })
       .toArray();
     if (payouts.length === 0) {
       res.status(404).send("No payouts found for the specified type");
