@@ -1,5 +1,4 @@
-const express = require("express");
-const router = express.Router();
+const router = require("express").Router();
 
 const {
   getOneAdmin,
@@ -7,12 +6,16 @@ const {
   getAllAdmins,
   addOneAdmin,
   updateAdminById,
+  RegisterUser,
+  LoginUser,
 } = require("../controllers/adminController");
 
-router.get("/wallpapers/find/:id", getOneAdmin);
-router.get("/wallpapers", getAllAdmins);
-router.get("/wallpapers/types/:typeName", getAdminsByType);
-router.post("/wallpapers/add", addOneAdmin);
-router.patch("/wallpapers/edit/:id", updateAdminById);
+router.get("/admin/find/:id", getOneAdmin);
+router.get("/admin", getAllAdmins);
+router.get("/admin/types/:typeName", getAdminsByType);
+router.post("/admin/add", addOneAdmin);
+router.post("/admin/register", RegisterUser);
+router.post("/admin/login", LoginUser);
+router.patch("/admin/edit/:id", updateAdminById);
 
 module.exports = router;

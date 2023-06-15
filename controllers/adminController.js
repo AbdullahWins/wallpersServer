@@ -3,6 +3,66 @@
 const { ObjectId } = require("mongodb");
 const { adminsCollection } = require("../database/db");
 const { uploadFile } = require("../uploaders/uploadFile");
+const bcrypt = require("bcrypt");
+const UserModel = require("../models/UserModel");
+
+const jwt = require("jsonwebtoken");
+
+// Login endpoint
+const LoginUser = async (req, res) => {
+  try {
+    const { email, password } = req.body;
+
+    // Find the user by email
+    const user = UserModel.findByEmail(email);
+
+    // Check if the user exists
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    // Check if the password matches
+    const passwordMatch = await bcrypt.compare(password, user.password);
+    if (!passwordMatch) {
+      return res.status(401).json({ error: "Invalid password" });
+    }
+
+    // Generate a JWT
+    const token = jwt.sign({ userId: user.id }, "secretKey");
+
+    // Return the JWT
+    res.json({ token });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+};
+
+// Registration endpoint
+const RegisterUser = async (req, res) => {
+  try {
+    // const { name, email, password } = req.body;
+    const data = req.body;
+    console.log(data);
+
+    // Check if the user already exists
+    if (UserModel.findByEmail(email)) {
+      return res.status(409).json({ error: "User already exists" });
+    }
+
+    // Hash the password
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    // Create a new user
+    const newUser = UserModel.createUser(name, email, hashedPassword);
+
+    // Return the created user
+    res.status(201).json(newUser);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+};
 
 //get all Admin
 const getAllAdmins = async (req, res) => {
@@ -112,4 +172,6 @@ module.exports = {
   getAllAdmins,
   addOneAdmin,
   updateAdminById,
+  LoginUser,
+  RegisterUser,
 };

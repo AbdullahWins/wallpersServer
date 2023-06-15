@@ -12,10 +12,12 @@
   "license": "ISC",
   "dependencies": {
     "@google-cloud/storage": "^6.10.1",
+    "bcrypt": "^5.1.0",
     "cors": "^2.8.5",
     "dotenv": "^16.1.1",
     "express": "^4.18.2",
     "firebase-admin": "^11.9.0",
+    "jsonwebtoken": "^9.0.0",
     "midjourney-client": "^1.0.8",
     "mongodb": "^5.5.0",
     "multer": "^1.4.5-lts.1",

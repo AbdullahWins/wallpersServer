@@ -3,12 +3,12 @@ const admin = require("firebase-admin");
 const multer = require("multer");
 const dotenv = require("dotenv");
 const cors = require("cors");
-const app = express();
 const port = process.env.PORT || 5000;
+const app = express();
 
 // Middleware
-app.use(cors());
 app.use(express.json());
+app.use(cors());
 app.use(multer({ dest: "uploads/" }).single("file"));
 dotenv.config();
 
