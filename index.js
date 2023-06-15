@@ -33,6 +33,7 @@ const bannerRoutes = require("./routes/bannerRoutes");
 const payoutRoutes = require("./routes/payoutRoutes");
 const coinPriceRoutes = require("./routes/coinPriceRoutes");
 const adNetworkRoutes = require("./routes/adNetworkRoutes");
+const adminRoutes = require("./routes/adminRoutes");
 const withdrawRoutes = require("./routes/withdrawRoutes");
 const midRoutes = require("./routes/midRoutes");
 
@@ -45,6 +46,7 @@ app.use(bannerRoutes);
 app.use(payoutRoutes);
 app.use(coinPriceRoutes);
 app.use(adNetworkRoutes);
+app.use(adminRoutes);
 app.use(withdrawRoutes);
 app.use(midRoutes);
 

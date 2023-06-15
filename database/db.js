@@ -21,6 +21,7 @@ const payoutsCollection = db.collection("payoutsCollection");
 const withdrawsCollection = db.collection("withdrawsCollection");
 const coinPricesCollection = db.collection("coinPricesCollection");
 const adNetworksCollection = db.collection("adNetworksCollection");
+const adminsCollection = db.collection("adminsCollection");
 const wallpapersCollection = db.collection("wallpapersCollection");
 const ringtonesCollection = db.collection("ringtonesCollection");
 const wallpaperCategoriesCollection = db.collection(
@@ -38,6 +39,7 @@ module.exports = {
   withdrawsCollection,
   coinPricesCollection,
   adNetworksCollection,
+  adminsCollection,
   wallpapersCollection,
   ringtonesCollection,
   wallpaperCategoriesCollection,
