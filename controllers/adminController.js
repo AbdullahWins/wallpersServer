@@ -1,34 +1,34 @@
-// Controllers/wallpaperController.js
+// Controllers/adminController.js
 
 const { ObjectId } = require("mongodb");
 const { adminsCollection } = require("../database/db");
 const { uploadFile } = require("../uploaders/uploadFile");
 
-//get all wallpapers
-const getAllWallpapers = async (req, res) => {
+//get all Admin
+const getAllAdmins = async (req, res) => {
   try {
     const query = {};
-    const cursor = wallpapersCollection.find(query);
-    const wallpapers = await cursor.toArray();
-    console.log(`Found ${wallpapers.length} wallpapers`);
-    res.send(wallpapers);
+    const cursor = adminsCollection.find(query);
+    const admins = await cursor.toArray();
+    console.log(`Found ${admins.length} admins`);
+    res.send(admins);
   } catch (err) {
     console.error(err);
     res.status(500).send("Server Error");
   }
 };
 
-// Get wallpapers by types
-const getWallpapersByType = async (req, res) => {
+// Get Admin by types
+const getAdminsByType = async (req, res) => {
   try {
-    const wallpaperTypeName = req.params.typeName;
-    const wallpapers = await wallpapersCollection
-      .find({ wallpaperType: wallpaperTypeName })
+    const adminTypeName = req.params.typeName;
+    const admins = await adminsCollection
+      .find({ adminType: adminTypeName })
       .toArray();
-    if (wallpapers.length === 0) {
-      res.status(404).send("No wallpapers found for the specified type");
+    if (admins.length === 0) {
+      res.status(404).send("No admins found for the specified type");
     } else {
-      res.send(wallpapers);
+      res.send(admins);
     }
   } catch (err) {
     console.error(err);
@@ -36,91 +36,18 @@ const getWallpapersByType = async (req, res) => {
   }
 };
 
-// Get Wallpapers by creator choice
-const getWallpapersByCreatorChoice = async (req, res) => {
+//get single Admin
+const getOneAdmin = async (req, res) => {
   try {
-    const wallpaperTypeName = req.params.typeName;
-    const wallpapers = await wallpapersCollection
-      .find({ isCreatorChoice: true })
-      .toArray();
-    if (wallpapers.length === 0) {
-      res.status(404).send("No wallpaper is creator choice");
-    } else {
-      res.send(wallpapers);
-    }
-  } catch (err) {
-    console.error(err);
-    res.status(500).send("Server Error");
-  }
-};
-
-// Get Wallpapers by trending
-const getWallpapersByTrending = async (req, res) => {
-  try {
-    const wallpaperCategoryName = req.params.categoryName;
-    const wallpapers = await wallpapersCollection
-      .find({ isTrending: true })
-      .toArray();
-    if (wallpapers.length === 0) {
-      res.status(404).send("No wallpaper is trending");
-    } else {
-      res.send(wallpapers);
-    }
-  } catch (err) {
-    console.error(err);
-    res.status(500).send("Server Error");
-  }
-};
-
-// Get Wallpapers by color
-const getWallpapersByColor = async (req, res) => {
-  try {
-    const color = req.params.color;
-
-    const wallpapers = await wallpapersCollection
-      .find({ colors: color })
-      .toArray();
-    if (wallpapers.length === 0) {
-      res.status(404).send("No wallpaper has this color");
-    } else {
-      res.send(wallpapers);
-    }
-  } catch (err) {
-    console.error(err);
-    res.status(500).send("Server Error");
-  }
-};
-
-// Get wallpapers by category
-const getWallpapersByCategory = async (req, res) => {
-  try {
-    const wallpaperCategoryName = req.params.categoryName;
-    const wallpapers = await wallpapersCollection
-      .find({ wallpaperCategory: wallpaperCategoryName })
-      .toArray();
-    if (wallpapers.length === 0) {
-      res.status(404).send("No wallpapers found for the specified category");
-    } else {
-      res.send(wallpapers);
-    }
-  } catch (err) {
-    console.error(err);
-    res.status(500).send("Server Error");
-  }
-};
-
-//get single wallpaper
-const getOneWallpaper = async (req, res) => {
-  try {
-    const wallpaperId = req.params.id;
-    const wallpaper = await wallpapersCollection.findOne({
-      _id: new ObjectId(wallpaperId),
+    const adminId = req.params.id;
+    const admin = await adminsCollection.findOne({
+      _id: new ObjectId(adminId),
     });
-    if (!wallpaper) {
-      res.status(404).send("wallpaper not found");
+    if (!admin) {
+      res.status(404).send("admin not found");
     } else {
-      res.send(wallpaper);
-      console.log(wallpaper);
+      res.send(admin);
+      console.log(admin);
     }
   } catch (err) {
     console.error(err);
@@ -128,36 +55,36 @@ const getOneWallpaper = async (req, res) => {
   }
 };
 
-//add new wallpaper
-const addOneWallpaper = async (req, res) => {
+//add new Admin
+const addOneAdmin = async (req, res) => {
   try {
     const { file } = req;
     const data = JSON.parse(req.body.data);
-    const folderName = "wallpapers";
+    const folderName = "admins";
     const fileUrl = await uploadFile(file, folderName);
     const formattedData = {
       ...data,
       fileUrl,
     };
-    const result = await wallpapersCollection.insertOne(formattedData);
+    const result = await adminsCollection.insertOne(formattedData);
     res.send(result);
     console.log(formattedData);
-    console.log(`wallpaper URL: ${fileUrl}`);
+    console.log(`admin URL: ${fileUrl}`);
   } catch (err) {
     console.error(err);
-    res.status(500).send("Failed to upload wallpaper");
+    res.status(500).send("Failed to upload admin");
   }
 };
 
-//update one wallpaper
-const updateWallpaperById = async (req, res) => {
+//update one Admin
+const updateAdminById = async (req, res) => {
   try {
     const id = req.params.id;
     console.log(id);
     const query = { _id: new ObjectId(id) };
     const { file } = req;
     const data = JSON.parse(req?.body?.data);
-    const folderName = "wallpapers";
+    const folderName = "admins";
     let updateData = {};
 
     if (file) {
@@ -169,7 +96,7 @@ const updateWallpaperById = async (req, res) => {
       updateData = { ...updateData, ...data };
     }
 
-    const result = await wallpapersCollection.updateOne(query, {
+    const result = await adminsCollection.updateOne(query, {
       $set: updateData,
     });
     res.send(result);
@@ -180,13 +107,9 @@ const updateWallpaperById = async (req, res) => {
 };
 
 module.exports = {
-  getOneWallpaper,
-  getWallpapersByCategory,
-  getWallpapersByCreatorChoice,
-  getWallpapersByTrending,
-  getWallpapersByColor,
-  getWallpapersByType,
-  getAllWallpapers,
-  addOneWallpaper,
-  updateWallpaperById,
+  getOneAdmin,
+  getAdminsByType,
+  getAllAdmins,
+  addOneAdmin,
+  updateAdminById,
 };

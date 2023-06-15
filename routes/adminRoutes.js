@@ -2,25 +2,17 @@ const express = require("express");
 const router = express.Router();
 
 const {
-  getOneWallpaper,
-  getAllWallpapers,
-  getWallpapersByCategory,
-  getWallpapersByCreatorChoice,
-  getWallpapersByTrending,
-  getWallpapersByColor,
-  getWallpapersByType,
-  addOneWallpaper,
-  updateWallpaperById,
+  getOneAdmin,
+  getAdminsByType,
+  getAllAdmins,
+  addOneAdmin,
+  updateAdminById,
 } = require("../controllers/adminController");
 
-router.get("/wallpapers/find/:id", getOneWallpaper);
-router.get("/wallpapers", getAllWallpapers);
-router.get("/wallpapers/categories/:categoryName", getWallpapersByCategory);
-router.get("/wallpapers/types/:typeName", getWallpapersByType);
-router.get("/wallpapers/creatorChoice", getWallpapersByCreatorChoice);
-router.get("/wallpapers/trending", getWallpapersByTrending);
-router.get("/wallpapers/:color", getWallpapersByColor);
-router.post("/wallpapers/add", addOneWallpaper);
-router.patch("/wallpapers/edit/:id", updateWallpaperById);
+router.get("/wallpapers/find/:id", getOneAdmin);
+router.get("/wallpapers", getAllAdmins);
+router.get("/wallpapers/types/:typeName", getAdminsByType);
+router.post("/wallpapers/add", addOneAdmin);
+router.patch("/wallpapers/edit/:id", updateAdminById);
 
 module.exports = router;
