@@ -143,6 +143,7 @@ const updateAdminById = async (req, res) => {
     const query = { _id: new ObjectId(id) };
     const { file } = req;
     const data = JSON.parse(req?.body?.data);
+    const { email, password, name, ...additionalInfo } = data;
     const folderName = "admins";
     let updateData = {};
 
@@ -150,11 +151,19 @@ const updateAdminById = async (req, res) => {
       const imageUrl = await uploadFile(file, folderName);
       updateData = { ...updateData, imageUrl };
     }
-
-    if (data) {
-      updateData = { ...updateData, ...data };
+    if (password) {
+      const hashedPassword = await bcrypt.hash(password, 10);
+      updateData = { ...updateData, password: hashedPassword };
     }
-
+    if (name) {
+      updateData = { ...updateData, name };
+    }
+    if (email) {
+      updateData = { ...updateData, email };
+    }
+    if (additionalInfo) {
+      updateData = { ...updateData, additionalInfo };
+    }
     const result = await adminsCollection.updateOne(query, {
       $set: updateData,
     });
