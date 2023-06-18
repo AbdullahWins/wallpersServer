@@ -1,3 +1,5 @@
+//database (mongodb)
+
 const { MongoClient } = require("mongodb");
 require("dotenv").config();
 
@@ -15,6 +17,12 @@ const connect = async () => {
 const db = client.db(process.env.DATABASE_NAME);
 const bannersCollection = db.collection("bannersCollection");
 const usersCollection = db.collection("usersCollection");
+const payoutsCollection = db.collection("payoutsCollection");
+const withdrawsCollection = db.collection("withdrawsCollection");
+const coinPricesCollection = db.collection("coinPricesCollection");
+const adNetworksCollection = db.collection("adNetworksCollection");
+const adminsCollection = db.collection("adminsCollection");
+const colorsCollection = db.collection("colorsCollection");
 const wallpapersCollection = db.collection("wallpapersCollection");
 const ringtonesCollection = db.collection("ringtonesCollection");
 const wallpaperCategoriesCollection = db.collection(
@@ -28,6 +36,11 @@ module.exports = {
   connect,
   bannersCollection,
   usersCollection,
+  payoutsCollection,
+  withdrawsCollection,
+  coinPricesCollection,
+  adNetworksCollection,
+  adminsCollection,colorsCollection,
   wallpapersCollection,
   ringtonesCollection,
   wallpaperCategoriesCollection,

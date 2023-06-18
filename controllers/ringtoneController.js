@@ -1,4 +1,4 @@
-// controllers/RingtoneController.js
+// controllers/ringtoneController.js
 
 const { ObjectId } = require("mongodb");
 const { ringtonesCollection } = require("../database/db");
@@ -35,6 +35,7 @@ const getRingtonesByType = async (req, res) => {
     res.status(500).send("Server Error");
   }
 };
+
 // Get Ringtones by creator choice
 const getRingtonesByCreatorChoice = async (req, res) => {
   try {
@@ -44,6 +45,24 @@ const getRingtonesByCreatorChoice = async (req, res) => {
       .toArray();
     if (ringtones.length === 0) {
       res.status(404).send("No Ringtones found for the specified type");
+    } else {
+      res.send(ringtones);
+    }
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("Server Error");
+  }
+};
+
+// Get Ringtones by trending
+const getRingtonesByTrending = async (req, res) => {
+  try {
+    const ringtoneCategoryName = req.params.categoryName;
+    const ringtones = await ringtonesCollection
+      .find({ isTrending: true })
+      .toArray();
+    if (ringtones.length === 0) {
+      res.status(404).send("No Ringtones found for the specified category");
     } else {
       res.send(ringtones);
     }
@@ -70,6 +89,7 @@ const getRingtonesByCategory = async (req, res) => {
     res.status(500).send("Server Error");
   }
 };
+
 
 //get single Ringtone
 const getOneRingtone = async (req, res) => {
@@ -111,11 +131,43 @@ const addOneRingtone = async (req, res) => {
   }
 };
 
+//update a ringtone
+const updateRingtoneById = async (req, res) => {
+  try {
+    const id = req.params.id;
+    console.log(id);
+    const query = { _id: new ObjectId(id) };
+    const { file } = req;
+    const data = JSON.parse(req?.body?.data);
+    const folderName = "ringtones";
+    let updateData = {};
+
+    if (file) {
+      const audioUrl = await uploadFile(file, folderName);
+      updateData = { ...updateData, audioUrl };
+    }
+
+    if (data) {
+      updateData = { ...updateData, ...data };
+    }
+
+    const result = await ringtonesCollection.updateOne(query, {
+      $set: updateData,
+    });
+    res.send(result);
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("Failed to update banner");
+  }
+};
+
 module.exports = {
   getOneRingtone,
   getRingtonesByCategory,
   getRingtonesByCreatorChoice,
+  getRingtonesByTrending,
   getRingtonesByType,
   getAllRingtones,
   addOneRingtone,
+  updateRingtoneById,
 };
