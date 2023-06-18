@@ -1,7 +1,7 @@
 const { ObjectID } = require("mongodb");
 const { adminsCollection } = require("../database/db");
 
-class UserModel {
+class AdminModel {
   constructor(id, name, email, password) {
     this._id = id;
     this.name = name;
@@ -10,17 +10,19 @@ class UserModel {
   }
 
   static async findByEmail(email) {
-    const user = await adminsCollection.findOne({ email });
+    const user = await adminsCollection.findOne({ email: email });
     return user;
   }
 
   static async findById(id) {
+    console.log(id);
     const user = await adminsCollection.findOne({ _id: ObjectID(id) });
     return user;
   }
 
   static async createUser(name, email, password) {
     const newUser = { name, email, password };
+    console.log(newUser);
     const result = await adminsCollection.insertOne(newUser);
     const createdUser = {
       _id: result.insertedId,
@@ -30,4 +32,4 @@ class UserModel {
   }
 }
 
-module.exports = UserModel;
+module.exports = AdminModel;

@@ -4,7 +4,7 @@ const { ObjectId } = require("mongodb");
 const { adminsCollection } = require("../database/db");
 const { uploadFile } = require("../uploaders/uploadFile");
 const bcrypt = require("bcrypt");
-const UserModel = require("../models/UserModel");
+const AdminModel = require("../models/AdminModel");
 
 const jwt = require("jsonwebtoken");
 
@@ -14,7 +14,8 @@ const LoginUser = async (req, res) => {
     const { email, password } = req.body;
 
     // Find the user by email
-    const user = UserModel.findByEmail(email);
+    const user = await AdminModel.findByEmail(email);
+    console.log(user);
 
     // Check if the user exists
     if (!user) {
@@ -41,12 +42,13 @@ const LoginUser = async (req, res) => {
 // Registration endpoint
 const RegisterUser = async (req, res) => {
   try {
-    // const { name, email, password } = req.body;
-    const data = req.body;
-    console.log(data);
+    const { name, email, password } = req.body;
+    // const data = req.body;
+    // console.log(data);
 
     // Check if the user already exists
-    if (UserModel.findByEmail(email)) {
+    const existingUserCheck = await AdminModel.findByEmail(email);
+    if (existingUserCheck) {
       return res.status(409).json({ error: "User already exists" });
     }
 
@@ -54,7 +56,7 @@ const RegisterUser = async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, 10);
 
     // Create a new user
-    const newUser = UserModel.createUser(name, email, hashedPassword);
+    const newUser = await AdminModel.createUser(name, email, hashedPassword);
 
     // Return the created user
     res.status(201).json(newUser);
