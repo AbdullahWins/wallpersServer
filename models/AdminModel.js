@@ -2,11 +2,12 @@ const { ObjectID } = require("mongodb");
 const { adminsCollection } = require("../database/db");
 
 class AdminModel {
-  constructor(id, name, email, password) {
+  constructor(id, name, email, password, additionalInfo) {
     this._id = id;
     this.name = name;
     this.email = email;
     this.password = password;
+    this.additionalInfo = additionalInfo;
   }
 
   static async findByEmail(email) {
@@ -20,8 +21,8 @@ class AdminModel {
     return admin;
   }
 
-  static async createAdmin(name, email, password) {
-    const newAdmin = { name, email, password };
+  static async createAdmin(name, email, password, additionalInfo) {
+    const newAdmin = { name, email, password, additionalInfo };
     console.log(newAdmin);
     const result = await adminsCollection.insertOne(newAdmin);
     const createdAdmin = {

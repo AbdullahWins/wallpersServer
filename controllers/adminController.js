@@ -64,7 +64,7 @@ const RegisterAdmin = async (req, res) => {
     // const { name, email, password } = req.body;
 
     const data = JSON.parse(req?.body?.data);
-    const { email, password, name } = data;
+    const { email, password, name, ...additionalInfo } = data;
 
     // Check if the Admin already exists
     const existingAdminCheck = await AdminModel.findByEmail(email);
@@ -76,7 +76,12 @@ const RegisterAdmin = async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, 10);
 
     // Create a new Admin
-    const newAdmin = await AdminModel.createAdmin(name, email, hashedPassword);
+    const newAdmin = await AdminModel.createAdmin(
+      name,
+      email,
+      hashedPassword,
+      additionalInfo
+    );
 
     // Return the created Admin
     res.status(201).json(newAdmin);
@@ -141,7 +146,7 @@ const getOneAdmin = async (req, res) => {
 const addOneAdmin = async (req, res) => {
   const data = JSON.parse(req?.body?.data);
 
-  const { email, password, name } = data;
+  const { email, password, name, ...additionalInfo } = data;
   try {
     // Check if the Admin already exists
     const existingAdminCheck = await AdminModel.findByEmail(email);
@@ -153,7 +158,12 @@ const addOneAdmin = async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, 10);
 
     // Create a new Admin
-    const newAdmin = await AdminModel.createAdmin(name, email, hashedPassword);
+    const newAdmin = await AdminModel.createAdmin(
+      name,
+      email,
+      hashedPassword,
+      additionalInfo
+    );
 
     // Return the created Admin
     res.status(201).json(newAdmin);
