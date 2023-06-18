@@ -7,7 +7,7 @@ const {
     getOneColor,
     addOneColor,
     updateColorById,
-} = require("../controllers/payoutController");
+} = require("../controllers/colorController");
 
 router.get("/colors/find/:id", getOneColor);
 router.get("/colors", getAllColors);
