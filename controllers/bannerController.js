@@ -25,10 +25,10 @@ const addOneBanner = async (req, res) => {
     const cursor = bannersCollection.find(query);
     const banners = await cursor.toArray();
     console.log(banners.length);
-    if (banners.length > 2) {
-      console.log("cannot add more than 3 banners");
-      res.send("cannot add more than 3 banners");
-    } else {
+    // if (banners.length > 2) {
+    //   console.log("cannot add more than 3 banners");
+    //   res.send("cannot add more than 3 banners");
+    // } else {
       const { file } = req;
       const data = JSON.parse(req.body.data);
       const folderName = "banners";
@@ -41,7 +41,7 @@ const addOneBanner = async (req, res) => {
       res.send(result);
       console.log(formattedData);
       console.log(`File URL: ${fileUrl}`);
-    }
+    // }
   } catch (err) {
     console.error(err);
     res.status(500).send("Failed to upload file");

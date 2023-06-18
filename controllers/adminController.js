@@ -31,7 +31,8 @@ const LoginAdmin = async (req, res) => {
       return res.status(401).json({ error: "Invalid password" });
     }
 
-    const expiresIn = "7d"; // 7 days
+    //token validity
+    const expiresIn = "7d";
     // Generate a JWT
     const token = jwt.sign(
       { adminId: admin?.email },
