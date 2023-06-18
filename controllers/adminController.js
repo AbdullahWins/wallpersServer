@@ -23,13 +23,18 @@ const LoginUser = async (req, res) => {
     }
 
     // Check if the password matches
-    const passwordMatch = await bcrypt.compare(password, user.password);
+    const passwordMatch = await bcrypt.compare(password, user?.password);
     if (!passwordMatch) {
       return res.status(401).json({ error: "Invalid password" });
     }
 
+    const expiresIn = "7d"; // 7 days
     // Generate a JWT
-    const token = jwt.sign({ userId: user.id }, "secretKey");
+    const token = jwt.sign(
+      { userId: user?.email },
+      process.env.JWT_TOKEN_SECRET_KEY,
+      { expiresIn }
+    );
 
     // Return the JWT
     res.json({ token });
@@ -38,6 +43,21 @@ const LoginUser = async (req, res) => {
     res.status(500).json({ error: "Internal server error" });
   }
 };
+
+// const verifyJWT = (token) => {
+//   try {
+//     const decoded = jwt.verify(token, process.env.JWT_TOKEN_SECRET_KEY);
+//     // Token is valid
+//     console.log(decoded); // { userId: '123' }
+//   } catch (err) {
+//     // Token is invalid
+//     console.error(err);
+//   }
+// };
+
+// verifyJWT(
+//   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2ODcwNjk1MzJ9.BYpO8yqegGLiEId3E-xZi6i-H93CqSH_R7tG67C4MVA"
+// );
 
 // Registration endpoint
 const RegisterUser = async (req, res) => {

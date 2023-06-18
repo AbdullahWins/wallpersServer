@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 
+const { authenticateToken } = require("../middlewares/AuthorizeUser");
 const {
   getAllAdNetworks,
   getOneAdNetwork,
@@ -9,7 +10,7 @@ const {
 } = require("../controllers/adNetworkController");
 
 router.get("/adNetwork/find/:id", getOneAdNetwork);
-router.get("/adNetwork", getAllAdNetworks);
+router.get("/adNetwork", authenticateToken, getAllAdNetworks);
 router.post("/adNetwork/add", addOneAdNetwork);
 router.patch("/adNetwork/edit/:id", updateAdNetworkById);
 

@@ -1,4 +1,6 @@
 // Middleware to verify JWT
+const jwt = require("jsonwebtoken");
+
 const authenticateToken = (req, res, next) => {
   const authHeader = req.headers["authorization"];
   const token = authHeader && authHeader.split(" ")[1];
@@ -7,7 +9,7 @@ const authenticateToken = (req, res, next) => {
     return res.status(401).json({ error: "Unauthorized" });
   }
 
-  jwt.verify(token, "secretKey", (err, user) => {
+  jwt.verify(token, process.env.JWT_TOKEN_SECRET_KEY, (err, user) => {
     if (err) {
       return res.status(403).json({ error: "Invalid token" });
     }
@@ -16,10 +18,5 @@ const authenticateToken = (req, res, next) => {
     next();
   });
 };
-
-// Protected route
-app.get("/protected", authenticateToken, (req, res) => {
-  res.json({ message: "Protected route" });
-});
 
 module.exports = { authenticateToken };
