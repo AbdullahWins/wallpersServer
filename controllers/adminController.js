@@ -40,7 +40,7 @@ const LoginAdmin = async (req, res) => {
     );
 
     // Return the JWT
-    res.json({ token });
+    res.json({ token, admin });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Internal server error" });
