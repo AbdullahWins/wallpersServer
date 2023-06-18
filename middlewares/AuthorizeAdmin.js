@@ -9,12 +9,12 @@ const authenticateToken = (req, res, next) => {
     return res.status(401).json({ error: "Unauthorized" });
   }
 
-  jwt.verify(token, process.env.JWT_TOKEN_SECRET_KEY, (err, user) => {
+  jwt.verify(token, process.env.JWT_TOKEN_SECRET_KEY, (err, admin) => {
     if (err) {
       return res.status(403).json({ error: "Invalid token" });
     }
 
-    req.user = user;
+    req.admin = admin;
     next();
   });
 };

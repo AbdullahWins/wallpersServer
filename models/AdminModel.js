@@ -10,25 +10,25 @@ class AdminModel {
   }
 
   static async findByEmail(email) {
-    const user = await adminsCollection.findOne({ email: email });
-    return user;
+    const admin = await adminsCollection.findOne({ email: email });
+    return admin;
   }
 
   static async findById(id) {
     console.log(id);
-    const user = await adminsCollection.findOne({ _id: ObjectID(id) });
-    return user;
+    const admin = await adminsCollection.findOne({ _id: ObjectID(id) });
+    return admin;
   }
 
-  static async createUser(name, email, password) {
-    const newUser = { name, email, password };
-    console.log(newUser);
-    const result = await adminsCollection.insertOne(newUser);
-    const createdUser = {
+  static async createAdmin(name, email, password) {
+    const newAdmin = { name, email, password };
+    console.log(newAdmin);
+    const result = await adminsCollection.insertOne(newAdmin);
+    const createdAdmin = {
       _id: result.insertedId,
-      ...newUser,
+      ...newAdmin,
     };
-    return createdUser;
+    return createdAdmin;
   }
 }
 
