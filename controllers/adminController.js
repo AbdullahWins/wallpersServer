@@ -4,60 +4,54 @@ const { ObjectId } = require("mongodb");
 const { adminsCollection } = require("../database/db");
 const { uploadFile } = require("../uploaders/uploadFile");
 const bcrypt = require("bcrypt");
-const UserModel = require("../models/UserModel");
-
 const jwt = require("jsonwebtoken");
+const AdminModel = require("../models/AdminModel");
 
-// Login endpoint
-const LoginUser = async (req, res) => {
+//login
+const LoginAdmin = async (req, res) => {
   try {
-    const { email, password } = req.body;
-
-    // Find the user by email
-    const user = UserModel.findByEmail(email);
-
-    // Check if the user exists
-    if (!user) {
-      return res.status(404).json({ error: "User not found" });
+    const data = JSON.parse(req?.body?.data);
+    const { email, password } = data;
+    const admin = await AdminModel.findByEmail(email);
+    console.log(admin);
+    if (!admin) {
+      return res.status(404).json({ error: "admin not found" });
     }
-
-    // Check if the password matches
-    const passwordMatch = await bcrypt.compare(password, user.password);
+    const passwordMatch = await bcrypt.compare(password, admin?.password);
     if (!passwordMatch) {
       return res.status(401).json({ error: "Invalid password" });
     }
-
-    // Generate a JWT
-    const token = jwt.sign({ userId: user.id }, "secretKey");
-
-    // Return the JWT
-    res.json({ token });
+    const expiresIn = "7d";
+    const token = jwt.sign(
+      { adminId: admin?.email },
+      process.env.JWT_TOKEN_SECRET_KEY,
+      { expiresIn }
+    );
+    res.json({ token, admin });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Internal server error" });
   }
 };
 
-// Registration endpoint
-const RegisterUser = async (req, res) => {
+//registration
+const RegisterAdmin = async (req, res) => {
   try {
-    // const { name, email, password } = req.body;
-    const data = req.body;
-    console.log(data);
-
-    // Check if the user already exists
-    if (UserModel.findByEmail(email)) {
-      return res.status(409).json({ error: "User already exists" });
+    const data = JSON.parse(req?.body?.data);
+    const { email, password, name, ...additionalInfo } = data;
+    const existingAdminCheck = await AdminModel.findByEmail(email);
+    if (existingAdminCheck) {
+      return res.status(409).json({ error: "Admin already exists" });
     }
-
-    // Hash the password
+    //create a new Admin
     const hashedPassword = await bcrypt.hash(password, 10);
-
-    // Create a new user
-    const newUser = UserModel.createUser(name, email, hashedPassword);
-
-    // Return the created user
-    res.status(201).json(newUser);
+    const newAdmin = await AdminModel.createAdmin(
+      name,
+      email,
+      hashedPassword,
+      additionalInfo
+    );
+    res.status(201).json(newAdmin);
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Internal server error" });
@@ -117,22 +111,27 @@ const getOneAdmin = async (req, res) => {
 
 //add new Admin
 const addOneAdmin = async (req, res) => {
+  const data = JSON.parse(req?.body?.data);
+  const { email, password, name, ...additionalInfo } = data;
   try {
-    const { file } = req;
-    const data = JSON.parse(req.body.data);
-    const folderName = "admins";
-    const fileUrl = await uploadFile(file, folderName);
-    const formattedData = {
-      ...data,
-      fileUrl,
-    };
-    const result = await adminsCollection.insertOne(formattedData);
-    res.send(result);
-    console.log(formattedData);
-    console.log(`admin URL: ${fileUrl}`);
+    const existingAdminCheck = await AdminModel.findByEmail(email);
+    if (existingAdminCheck) {
+      return res.status(409).json({ error: "admin already exists" });
+    }
+    // Create a new Admin
+    const hashedPassword = await bcrypt.hash(password, 10);
+    const newAdmin = await AdminModel.createAdmin(
+      name,
+      email,
+      hashedPassword,
+      additionalInfo
+    );
+    res.status(201).json(newAdmin);
+    console.log(newAdmin);
+    console.log(`new admin created: ${newAdmin}`);
   } catch (err) {
     console.error(err);
-    res.status(500).send("Failed to upload admin");
+    res.status(500).send("Failed to create new admin");
   }
 };
 
@@ -162,7 +161,26 @@ const updateAdminById = async (req, res) => {
     res.send(result);
   } catch (err) {
     console.error(err);
-    res.status(500).send("Failed to update banner");
+    res.status(500).send("Failed to update admin");
+  }
+};
+
+//delete one Admin
+const deleteAdminById = async (req, res) => {
+  try {
+    const id = req.params.id;
+    const query = { _id: new ObjectId(id) };
+    const result = await adminsCollection.deleteOne(query);
+    if (result?.deletedCount === 0) {
+      console.log("no admin found with this id:", id);
+      res.send("no admin found with this id!");
+    } else {
+      console.log("admin deleted:", id);
+      res.send(result);
+    }
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("Failed to delete admin");
   }
 };
 
@@ -172,6 +190,7 @@ module.exports = {
   getAllAdmins,
   addOneAdmin,
   updateAdminById,
-  LoginUser,
-  RegisterUser,
+  LoginAdmin,
+  RegisterAdmin,
+  deleteAdminById,
 };

@@ -1,4 +1,5 @@
 const router = require("express").Router();
+const { authenticateToken } = require("../middlewares/AuthorizeAdmin");
 
 const {
   getOneAdmin,
@@ -6,16 +7,18 @@ const {
   getAllAdmins,
   addOneAdmin,
   updateAdminById,
-  RegisterUser,
-  LoginUser,
+  RegisterAdmin,
+  LoginAdmin,
+  deleteAdminById,
 } = require("../controllers/adminController");
 
-router.get("/admin/find/:id", getOneAdmin);
-router.get("/admin", getAllAdmins);
-router.get("/admin/types/:typeName", getAdminsByType);
-router.post("/admin/add", addOneAdmin);
-router.post("/admin/register", RegisterUser);
-router.post("/admin/login", LoginUser);
-router.patch("/admin/edit/:id", updateAdminById);
+router.get("/admin/find/:id", authenticateToken, getOneAdmin);
+router.get("/admin/delete/:id", authenticateToken, deleteAdminById);
+router.get("/admin", authenticateToken, getAllAdmins);
+router.get("/admin/types/:typeName", authenticateToken, getAdminsByType);
+router.post("/admin/add", authenticateToken, addOneAdmin);
+router.post("/admin/register", RegisterAdmin);
+router.post("/admin/login", LoginAdmin);
+router.patch("/admin/edit/:id", authenticateToken, updateAdminById);
 
 module.exports = router;

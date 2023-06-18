@@ -24,33 +24,36 @@ admin.initializeApp({
 // Import database connection
 const { connect } = require("./database/db");
 
-// Import routes
-const userRoutes = require("./routes/userRoutes");
-const wallpaperRoutes = require("./routes/wallpaperRoutes");
-const ringtoneRoutes = require("./routes/ringtoneRoutes");
-const categoryRoutes = require("./routes/categoryRoutes");
-const bannerRoutes = require("./routes/bannerRoutes");
-const payoutRoutes = require("./routes/payoutRoutes");
-const coinPriceRoutes = require("./routes/coinPriceRoutes");
-const adNetworkRoutes = require("./routes/adNetworkRoutes");
-const adminRoutes = require("./routes/adminRoutes");
-const colorRoutes = require("./routes/colorRoutes");
-const withdrawRoutes = require("./routes/withdrawRoutes");
-const midRoutes = require("./routes/midRoutes");
+const routes = require("./routes/routes");
+app.use(routes);
 
-// Routes
-app.use(userRoutes);
-app.use(wallpaperRoutes);
-app.use(ringtoneRoutes);
-app.use(categoryRoutes);
-app.use(bannerRoutes);
-app.use(payoutRoutes);
-app.use(coinPriceRoutes);
-app.use(adNetworkRoutes);
-app.use(adminRoutes);
-app.use(colorRoutes);
-app.use(withdrawRoutes);
-app.use(midRoutes);
+// // Import routes
+// const userRoutes = require("./routes/userRoutes");
+// const wallpaperRoutes = require("./routes/wallpaperRoutes");
+// const ringtoneRoutes = require("./routes/ringtoneRoutes");
+// const categoryRoutes = require("./routes/categoryRoutes");
+// const bannerRoutes = require("./routes/bannerRoutes");
+// const payoutRoutes = require("./routes/payoutRoutes");
+// const coinPriceRoutes = require("./routes/coinPriceRoutes");
+// const adNetworkRoutes = require("./routes/adNetworkRoutes");
+// const adminRoutes = require("./routes/adminRoutes");
+// const colorRoutes = require("./routes/colorRoutes");
+// const withdrawRoutes = require("./routes/withdrawRoutes");
+// const midRoutes = require("./routes/midRoutes");
+
+// // Routes
+// app.use(userRoutes);
+// app.use(wallpaperRoutes);
+// app.use(ringtoneRoutes);
+// app.use(categoryRoutes);
+// app.use(bannerRoutes);
+// app.use(payoutRoutes);
+// app.use(coinPriceRoutes);
+// app.use(adNetworkRoutes);
+// app.use(adminRoutes);
+// app.use(colorRoutes);
+// app.use(withdrawRoutes);
+// app.use(midRoutes);
 
 // Start server
 async function start() {

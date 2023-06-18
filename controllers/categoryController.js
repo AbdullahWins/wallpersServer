@@ -1,5 +1,6 @@
 // Controllers/categoryController.js
 
+const { ObjectId } = require("mongodb");
 const {
   wallpaperCategoriesCollection,
   ringtoneCategoriesCollection,
@@ -102,7 +103,7 @@ const updateRingtoneCategoryById = async (req, res) => {
     res.send(result);
   } catch (err) {
     console.error(err);
-    res.status(500).send("Failed to update banner");
+    res.status(500).send("Failed to update ringtone");
   }
 };
 
@@ -132,7 +133,7 @@ const updateWallpaperCategoryById = async (req, res) => {
     res.send(result);
   } catch (err) {
     console.error(err);
-    res.status(500).send("Failed to update banner");
+    res.status(500).send("Failed to update wallpaper");
   }
 };
 
