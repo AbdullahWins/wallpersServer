@@ -9,9 +9,11 @@ const {
   updateAdminById,
   RegisterAdmin,
   LoginAdmin,
+  deleteAdminById,
 } = require("../controllers/adminController");
 
 router.get("/admin/find/:id", authenticateToken, getOneAdmin);
+router.get("/admin/delete/:id", authenticateToken, deleteAdminById);
 router.get("/admin", authenticateToken, getAllAdmins);
 router.get("/admin/types/:typeName", authenticateToken, getAdminsByType);
 router.post("/admin/add", authenticateToken, addOneAdmin);

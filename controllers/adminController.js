@@ -4,43 +4,29 @@ const { ObjectId } = require("mongodb");
 const { adminsCollection } = require("../database/db");
 const { uploadFile } = require("../uploaders/uploadFile");
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 const AdminModel = require("../models/AdminModel");
 
-const jwt = require("jsonwebtoken");
-
-// Login endpoint
+//login
 const LoginAdmin = async (req, res) => {
   try {
-    // const { email, password } = req.body;
-
     const data = JSON.parse(req?.body?.data);
     const { email, password } = data;
-
-    // Find the Admin by email
     const admin = await AdminModel.findByEmail(email);
     console.log(admin);
-
-    // Check if the Admin exists
     if (!admin) {
       return res.status(404).json({ error: "admin not found" });
     }
-
-    // Check if the password matches
     const passwordMatch = await bcrypt.compare(password, admin?.password);
     if (!passwordMatch) {
       return res.status(401).json({ error: "Invalid password" });
     }
-
-    //token validity
     const expiresIn = "7d";
-    // Generate a JWT
     const token = jwt.sign(
       { adminId: admin?.email },
       process.env.JWT_TOKEN_SECRET_KEY,
       { expiresIn }
     );
-
-    // Return the JWT
     res.json({ token, admin });
   } catch (error) {
     console.error(error);
@@ -48,43 +34,23 @@ const LoginAdmin = async (req, res) => {
   }
 };
 
-// const verifyJWT = (token) => {
-//   try {
-//     const decoded = jwt.verify(token, process.env.JWT_TOKEN_SECRET_KEY);
-//     // Token is valid
-//     console.log(decoded); // { adminId: '123' }
-//   } catch (err) {
-//     // Token is invalid
-//     console.error(err);
-//   }
-// };
-
-// Registration endpoint
+//registration
 const RegisterAdmin = async (req, res) => {
   try {
-    // const { name, email, password } = req.body;
-
     const data = JSON.parse(req?.body?.data);
     const { email, password, name, ...additionalInfo } = data;
-
-    // Check if the Admin already exists
     const existingAdminCheck = await AdminModel.findByEmail(email);
     if (existingAdminCheck) {
       return res.status(409).json({ error: "Admin already exists" });
     }
-
-    // Hash the password
+    //create a new Admin
     const hashedPassword = await bcrypt.hash(password, 10);
-
-    // Create a new Admin
     const newAdmin = await AdminModel.createAdmin(
       name,
       email,
       hashedPassword,
       additionalInfo
     );
-
-    // Return the created Admin
     res.status(201).json(newAdmin);
   } catch (error) {
     console.error(error);
@@ -146,27 +112,20 @@ const getOneAdmin = async (req, res) => {
 //add new Admin
 const addOneAdmin = async (req, res) => {
   const data = JSON.parse(req?.body?.data);
-
   const { email, password, name, ...additionalInfo } = data;
   try {
-    // Check if the Admin already exists
     const existingAdminCheck = await AdminModel.findByEmail(email);
     if (existingAdminCheck) {
       return res.status(409).json({ error: "admin already exists" });
     }
-
-    // Hash the password
-    const hashedPassword = await bcrypt.hash(password, 10);
-
     // Create a new Admin
+    const hashedPassword = await bcrypt.hash(password, 10);
     const newAdmin = await AdminModel.createAdmin(
       name,
       email,
       hashedPassword,
       additionalInfo
     );
-
-    // Return the created Admin
     res.status(201).json(newAdmin);
     console.log(newAdmin);
     console.log(`new admin created: ${newAdmin}`);
@@ -202,7 +161,26 @@ const updateAdminById = async (req, res) => {
     res.send(result);
   } catch (err) {
     console.error(err);
-    res.status(500).send("Failed to update banner");
+    res.status(500).send("Failed to update admin");
+  }
+};
+
+//delete one Admin
+const deleteAdminById = async (req, res) => {
+  try {
+    const id = req.params.id;
+    const query = { _id: new ObjectId(id) };
+    const result = await adminsCollection.deleteOne(query);
+    if (result?.deletedCount === 0) {
+      console.log("no admin found with this id:", id);
+      res.send("no admin found with this id!");
+    } else {
+      console.log("admin deleted:", id);
+      res.send(result);
+    }
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("Failed to delete admin");
   }
 };
 
@@ -214,4 +192,5 @@ module.exports = {
   updateAdminById,
   LoginAdmin,
   RegisterAdmin,
+  deleteAdminById,
 };
