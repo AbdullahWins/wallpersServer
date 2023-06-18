@@ -64,7 +64,6 @@ const addOneColor = async (req, res) => {
     const result = await colorsCollection.insertOne(formattedData);
     res.send(result);
     console.log(formattedData);
-    console.log(`color URL: ${fileUrl}`);
   } catch (err) {
     console.error(err);
     res.status(500).send("Failed to upload color");
