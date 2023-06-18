@@ -11,7 +11,10 @@ const jwt = require("jsonwebtoken");
 // Login endpoint
 const LoginAdmin = async (req, res) => {
   try {
-    const { email, password } = req.body;
+    // const { email, password } = req.body;
+
+    const data = JSON.parse(req?.body?.data);
+    const { email, password } = data;
 
     // Find the Admin by email
     const admin = await AdminModel.findByEmail(email);
@@ -58,7 +61,10 @@ const LoginAdmin = async (req, res) => {
 // Registration endpoint
 const RegisterAdmin = async (req, res) => {
   try {
-    const { name, email, password } = req.body;
+    // const { name, email, password } = req.body;
+
+    const data = JSON.parse(req?.body?.data);
+    const { email, password, name } = data;
 
     // Check if the Admin already exists
     const existingAdminCheck = await AdminModel.findByEmail(email);
@@ -133,7 +139,8 @@ const getOneAdmin = async (req, res) => {
 
 //add new Admin
 const addOneAdmin = async (req, res) => {
-  const data = req?.body?.data;
+  const data = JSON.parse(req?.body?.data);
+
   const { email, password, name } = data;
   try {
     // Check if the Admin already exists
