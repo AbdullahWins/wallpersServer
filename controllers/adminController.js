@@ -49,7 +49,7 @@ const RegisterAdmin = async (req, res) => {
       name,
       email,
       hashedPassword,
-      additionalInfo
+      ...additionalInfo
     );
     res.status(201).json(newAdmin);
   } catch (error) {
@@ -124,7 +124,7 @@ const addOneAdmin = async (req, res) => {
       name,
       email,
       hashedPassword,
-      additionalInfo
+      ...additionalInfo
     );
     res.status(201).json(newAdmin);
     console.log(newAdmin);
@@ -162,7 +162,7 @@ const updateAdminById = async (req, res) => {
       updateData = { ...updateData, email };
     }
     if (additionalInfo) {
-      updateData = { ...updateData, additionalInfo };
+      updateData = { ...updateData, ...additionalInfo };
     }
     const result = await adminsCollection.updateOne(query, {
       $set: updateData,
