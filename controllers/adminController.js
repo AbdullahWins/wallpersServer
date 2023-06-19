@@ -6,6 +6,7 @@ const { uploadFile } = require("../uploaders/uploadFile");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const AdminModel = require("../models/AdminModel");
+const timestamp = Date.now();
 
 //login
 const LoginAdmin = async (req, res) => {
@@ -49,7 +50,8 @@ const RegisterAdmin = async (req, res) => {
       name,
       email,
       hashedPassword,
-      ...additionalInfo
+      timestamp,
+      additionalInfo
     );
     res.status(201).json(newAdmin);
   } catch (error) {
@@ -124,7 +126,8 @@ const addOneAdmin = async (req, res) => {
       name,
       email,
       hashedPassword,
-      ...additionalInfo
+      timestamp,
+      additionalInfo
     );
     res.status(201).json(newAdmin);
     console.log(newAdmin);
@@ -145,7 +148,7 @@ const updateAdminById = async (req, res) => {
     const data = JSON.parse(req?.body?.data);
     const { email, password, name, ...additionalInfo } = data;
     const folderName = "admins";
-    let updateData = {};
+    let updateData = { timestamp };
 
     if (file) {
       const imageUrl = await uploadFile(file, folderName);
@@ -162,7 +165,7 @@ const updateAdminById = async (req, res) => {
       updateData = { ...updateData, email };
     }
     if (additionalInfo) {
-      updateData = { ...updateData, ...additionalInfo };
+      updateData = { ...updateData, additionalInfo };
     }
     const result = await adminsCollection.updateOne(query, {
       $set: updateData,
