@@ -5,13 +5,13 @@ const {
   getAllUsers,
   getOneUser,
   addOneUser,
-  updateUserById,
+  updateUserByEmail,
 } = require("../controllers/userController");
 
 router.get("/", sendGrettings);
-router.get("/users/:id", getOneUser);
+router.get("/users/:email", getOneUser);
 router.get("/users", getAllUsers);
 router.post("/users/add", addOneUser);
-router.patch("/users/edit/:id", updateUserById);
+router.patch("/users/edit/:email", updateUserByEmail);
 
 module.exports = router;
