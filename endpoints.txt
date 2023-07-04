@@ -1,0 +1,96 @@
+Base URL: https://wallpers.onrender.com
+
+//admin
+
+router.get("/admin/find/:id", authenticateToken, getOneAdmin);
+router.get("/admin/delete/:id", authenticateToken, deleteAdminById);
+router.get("/admin", authenticateToken, getAllAdmins);
+router.get("/admin/types/:typeName", authenticateToken, getAdminsByType);
+router.post("/admin/add", authenticateToken, addOneAdmin);
+router.post("/admin/register", RegisterAdmin);
+router.post("/admin/login", LoginAdmin);
+router.patch("/admin/edit/:id", authenticateToken, updateAdminById);
+
+//ad network
+
+router.get("/adNetwork/find/:id", getOneAdNetwork);
+router.get("/adNetwork", getAllAdNetworks);
+router.post("/adNetwork/add", addOneAdNetwork);
+router.patch("/adNetwork/edit/:id", updateAdNetworkById);
+
+//banner
+
+router.get("/banners", getAllBanners);
+router.post("/banners/add", addOneBanner);
+router.patch("/banners/edit/:id", updateBannerById);
+
+//category
+
+router.get("/categories/ringtone", getAllRingtoneCategories);
+router.get("/categories/wallpaper", getAllwallpaperCategories);
+router.post("/categories/add/ringtone", addOneRingtoneCategory);
+router.post("/categories/add/wallpaper", addOneWallpaperCategory);
+router.patch("/categories/edit/wallpaper/:id", updateWallpaperCategoryById);
+router.patch("/categories/edit/ringtone/:id", updateRingtoneCategoryById);
+
+//coin price
+
+router.get("/coinPrice/find/:id", getOneCoinPrice);
+router.get("/coinPrice", getAllCoinPrices);
+router.post("/coinPrice/add", addOneCoinPrice);
+router.patch("/coinPrice/edit/:id", updateCoinPriceById);
+
+//color
+
+router.get("/colors/find/:id", getOneColor);
+router.get("/colors", getAllColors);
+router.get("/colors/types/:name", getColorsByName);
+router.post("/colors/add", addOneColor);
+router.patch("/colors/edit/:id", updateColorById);
+
+//payout
+
+router.get("/payouts/find/:id", getOnePayout);
+router.get("/payouts", getAllPayouts);
+router.get("/payouts/types/:typeName", getPayoutsByType);
+router.post("/payouts/add", addOnePayout);
+router.patch("/payouts/edit/:id", updatePayoutById);
+
+//ringtone
+
+router.get("/ringtones/find/:id", getOneRingtone);
+router.get("/ringtones", getAllRingtones);
+router.get("/ringtones/categories/:categoryName", getRingtonesByCategory);
+router.get("/ringtones/types/:typeName", getRingtonesByType);
+router.get("/ringtones/creatorChoice", getRingtonesByCreatorChoice);
+router.get("/ringtones/trending", getRingtonesByTrending);
+router.post("/ringtones/add", addOneRingtone);
+router.patch("/ringtones/edit/:id", updateRingtoneById);
+
+//user
+
+router.get("/", sendGrettings);
+router.get("/users/:email", getOneUser);
+router.get("/users", getAllUsers);
+router.post("/users/add", addOneUser);
+router.patch("/users/edit/:email", updateUserByEmail);
+
+//wallpaper
+
+router.get("/wallpapers/find/:id", getOneWallpaper);
+router.get("/wallpapers", getAllWallpapers);
+router.get("/wallpapers/categories/:categoryName", getWallpapersByCategory);
+router.get("/wallpapers/types/:typeName", getWallpapersByType);
+router.get("/wallpapers/creatorChoice", getWallpapersByCreatorChoice);
+router.get("/wallpapers/trending", getWallpapersByTrending);
+router.get("/wallpapers/:color", getWallpapersByColor);
+router.post("/wallpapers/add", addOneWallpaper);
+router.patch("/wallpapers/edit/:id", updateWallpaperById);
+
+//withdraw
+
+router.get("/withdraws/find/:id", getOneWithdraw);
+router.get("/withdraws", getAllWithdraws);
+router.get("/withdraws/types/:typeName", getWithdrawsByType);
+router.post("/withdraws/add", addOneWithdraw);
+router.patch("/withdraws/edit/:id", updateWithdrawById);
