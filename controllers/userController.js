@@ -32,8 +32,8 @@ const getAllUsers = async (req, res) => {
 const getOneUser = async (req, res) => {
   console.log("lol");
   try {
-    const userId = req.params.id;
-    const user = await usersCollection.findOne({ _id: new ObjectId(userId) });
+    const userEmail = req.params.email;
+    const user = await usersCollection.findOne({ email: userEmail });
     if (!user) {
       res.status(404).send("User not found");
     } else {
@@ -61,11 +61,11 @@ const addOneUser = async (req, res) => {
 };
 
 //update one user
-const updateUserById = async (req, res) => {
+const updateUserByEmail = async (req, res) => {
   try {
-    const id = req.params.id;
-    console.log(id);
-    const query = { _id: new ObjectId(id) };
+    const userEmail = req.params.email;
+    console.log(userEmail);
+    const query = { email: userEmail };
     const { file } = req;
     const data = JSON.parse(req?.body?.data);
     const folderName = "users";
@@ -96,5 +96,5 @@ module.exports = {
   getAllUsers,
   getOneUser,
   addOneUser,
-  updateUserById,
+  updateUserByEmail,
 };
